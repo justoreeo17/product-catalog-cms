@@ -3,6 +3,7 @@ const { PasswordAuthStrategy } = require('@keystonejs/auth-password');
 const { Text, Checkbox, Password } = require('@keystonejs/fields');
 const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
+const { StaticApp } = require('@keystonejs/app-static');
 const initialiseData = require('./initial-data');
 const { File } = require('@keystonejs/fields');
 const { LocalFileAdapter } = require('@keystonejs/file-adapters');
@@ -57,7 +58,7 @@ keystone.createList('User', {
 const fileAdapter = new LocalFileAdapter({
 	/*...config */
 	src: './files',
-	path: './files',
+	path: '/files',
 });
 
 // List of products
@@ -85,6 +86,10 @@ module.exports = {
 		new AdminUIApp({
 		enableDefaultRoute: true,
 		authStrategy,
+		}),
+		new StaticApp({
+			path: '/files',
+			src: './files'
 		}),
 	],
 };
