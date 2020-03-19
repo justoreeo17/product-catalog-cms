@@ -4,6 +4,8 @@ const { Text, Checkbox, Password } = require('@keystonejs/fields');
 const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
 const initialiseData = require('./initial-data');
+const { File } = require('@keystonejs/fields');
+const { LocalFileAdapter } = require('@keystonejs/file-adapters');
 
 const { MongooseAdapter: Adapter } = require('@keystonejs/adapter-mongoose');
 
@@ -52,9 +54,19 @@ keystone.createList('User', {
 	},
 });
 
+const fileAdapter = new LocalFileAdapter({
+	/*...config */
+	src: './files',
+	path: './files',
+});
+
 // List of products
 keystone.createList('Product', {
 	fields: {
+		file: {
+			type: File,
+			adapter: fileAdapter,
+		},
 		name: { type: Text },
 		desc: { type: Text },
 		price: { type: Text },
